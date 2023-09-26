@@ -193,7 +193,7 @@
               <AnalysisFile>
                 <RelativePath>Form1.cs</RelativePath>
                 <ProjectName>calculator</ProjectName>
-                <AnalysisFileType>Model</AnalysisFileType>
+                <AnalysisFileType>ViewOrController</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Form1.Designer.cs</RelativePath>

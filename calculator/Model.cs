@@ -8,73 +8,66 @@ namespace calculator
 {
     public class Model
     {
-        private double[] temp = new double[2];
-        private string method;
-        private double sum;
-
+        const string PLUS_SIGN = "+";
+        const string MINUS_SIGN = "-";
+        const string TIMES_SIGN = "x";
+        const string SLASH_SIGN = "/";
+        const int SIZE = 2;
+        private double[] _temp = new double[SIZE];
+        private string _method;
+        private double _sum;
+        
         public Model()
         {
-            temp[0] = 0;
-            temp[1] = 0;
-            method = "";
-            sum = 0;
+            _temp[0] = 0;
+            _temp[1] = 0;
+            _method = "";
+            _sum = 0;
         }
 
-        public void setTemp(double arg)
+        // operand
+        public void SetParameter(double value)
         {
-            if (this.method == "")
+            if (_method == "")
             {
-                this.temp[0] = arg;
+                _temp[0] = value;
             }
             else
             {
-                this.temp[1] = arg;
+                _temp[1] = value;
             }
         }
 
-        public void setMethod(string m)
+        // operation
+        public void SetMethod(string method)
         {
-           this.method = m;
+            _method = method;
         }
 
-        public double Sum()
+        // Total
+        public double GetSum()
         {
-            if (this.method == "+")
-            {
-                sum = temp[0] + temp[1];
-                temp[0] = sum;
-                return sum;
-            }
-            else if (this.method == "-")
-            {
-                sum = temp[0] - temp[1];
-                temp[0] = sum;
-                return sum;
-            }
-            else if (this.method == "x")
-            {
-                sum = temp[0] * temp[1];
-                temp[0] = sum;
-                return sum;
-            }
-            else if (this.method == "/")
-            {
-                sum = temp[0] / temp[1];
-                temp[0] = sum;
-                return sum;
-            }
+            if (_method == PLUS_SIGN)
+                _sum = _temp[0] + _temp[1];
+            else if (_method == MINUS_SIGN)
+                _sum = _temp[0] - _temp[1];
+            else if (_method == TIMES_SIGN)
+                _sum = _temp[0] * _temp[1];
+            else if (_method == SLASH_SIGN)
+                _sum = _temp[0] / _temp[1];
             else
-            {
-                return temp[0];
-            }
+                _sum = _temp[0];
+            _temp[0] = _sum;
+            return _sum;
         }
 
-        public void Intialize()
+        // Reset
+        public void Reset()
         {
-            temp[0] = 0;
-            temp[1] = 0;
-            method = "";
-            sum = 0;
+            _temp[0] = 0;
+            _temp[1] = 0;
+            _method = "";
+            _sum = 0;
         }
     }
 }

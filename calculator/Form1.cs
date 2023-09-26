@@ -13,196 +13,234 @@ namespace calculator
     public partial class Form1 : Form
     {
         // declared
-        Model cal_mol;
-        List<char> temp = new List<char>();
-        bool state = false;
+        Model _model;
+        List<char> _temp = new List<char>();
+        bool _state = false; 
+        const char CHAR_ZERO = '0';
+        const string STRING_ZERO = "0";
+        const char CHAR_ONE = '1';
+        const char CHAR_TWO = '2';
+        const char CHAR_THREE = '3';
+        const char CHAR_FOUR = '4';
+        const char CHAR_FIVE = '5';
+        const char CHAR_SIX = '6';
+        const char CHAR_SEVEN = '7';
+        const char CHAR_EIGHT = '8';
+        const char CHAR_NINE = '9';
+        const char DOT_SIGN = '.';
+        const string AVOID_MESSAGE = "Pls Enter the num";
+        const string RESET = "RESET first";
+        const string PLUS_SIGN = "+";
+        const string MINUS_SIGN = "-";
+        const string TIMES_SIGN = "x";
+        const string SLASH_SIGN = "/";
 
         // windows instance
-        public Form1(Model c)
+        public Form1(Model model)
         {
-            this.cal_mol = c;
+            this._model = model;
             InitializeComponent();
         }
-       
-        // Method
-        private void Plus_Click(object sender, EventArgs e)
+
+        // +
+        private void ClickPlus(object sender, EventArgs e)
         {
-            if (temp.Count == 0)
+            if (_temp.Count == 0)
             {
-                MessageBox.Show("pls Enter the num");
+                MessageBox.Show(AVOID_MESSAGE);
                 return;
             }
-            else
+            else if (_state && _temp.Count > 1)
             {
-                if(state && temp.Count > 1)
-                {
-                    MessageBox.Show("Reset first");
-                    return;
-                }
-            }
-            cal_mol.setTemp(double.Parse(new string(temp.ToArray())));
-            Results.Text = cal_mol.Sum().ToString();
-            cal_mol.setMethod("+");
-            temp.Clear();
-        }
-        private void Minus_Click(object sender, EventArgs e)
-        {
-            if (temp.Count == 0)
-            {
-                MessageBox.Show("pls Enter the num");
+                MessageBox.Show(RESET);
                 return;
             }
-            else
-            {
-                if (state && temp.Count > 1)
-                {
-                    MessageBox.Show("Reset first");
-                    return;
-                }
-            }
-            cal_mol.setTemp(double.Parse(new string(temp.ToArray())));
-            Results.Text = cal_mol.Sum().ToString();
-            cal_mol.setMethod("-");
-            temp.Clear();
+            _model.SetParameter(double.Parse(new string(_temp.ToArray())));
+            _results.Text = _model.GetSum().ToString();
+            _model.SetMethod(PLUS_SIGN);
+            _temp.Clear();
+            _state = false;
         }
-        private void Times_Click(object sender, EventArgs e)
+
+        // -
+        private void ClickMinus(object sender, EventArgs e)
         {
-            if (temp.Count == 0)
+            if (_temp.Count == 0)
             {
-                MessageBox.Show("pls Enter the num");
+                MessageBox.Show(AVOID_MESSAGE);
                 return;
             }
-            else
+            else if (_state && _temp.Count > 1)
             {
-                if (state && temp.Count > 1)
-                {
-                    MessageBox.Show("Reset first");
-                    return;
-                }
-            }
-            cal_mol.setTemp(double.Parse(new string(temp.ToArray())));
-            Results.Text = cal_mol.Sum().ToString();
-            cal_mol.setMethod("x");
-            temp.Clear();
-        }
-        private void Slash_Click(object sender, EventArgs e)
-        {
-            if (temp.Count == 0)
-            {
-                MessageBox.Show("pls Enter the num");
+                MessageBox.Show(RESET);
                 return;
             }
-            else
-            {
-                if (state && temp.Count > 1)
-                {
-                    MessageBox.Show("Reset first");
-                    return;
-                }
-            }
-            cal_mol.setTemp(double.Parse(new string(temp.ToArray())));
-            Results.Text = cal_mol.Sum().ToString();
-            cal_mol.setMethod("/");
-            temp.Clear();
+            _model.SetParameter(double.Parse(new string(_temp.ToArray())));
+            _results.Text = _model.GetSum().ToString();
+            _model.SetMethod(MINUS_SIGN);
+            _temp.Clear();
+            _state = false;
         }
-        private void Equal_Click(object sender, EventArgs e)
+
+        // x
+        private void ClickTimes(object sender, EventArgs e)
         {
-            if (temp.Count == 0)
+            if (_temp.Count == 0)
             {
-                MessageBox.Show("pls Enter the num");
+                MessageBox.Show(AVOID_MESSAGE);
+                return;
+            }
+            else if (_state && _temp.Count > 1)
+            {
+                MessageBox.Show(RESET);
+                return;
+            }
+            _model.SetParameter(double.Parse(new string(_temp.ToArray())));
+            _results.Text = _model.GetSum().ToString();
+            _model.SetMethod(TIMES_SIGN);
+            _temp.Clear();
+            _state = false;
+        }
+
+        // ÷
+        private void ClickSlash(object sender, EventArgs e)
+        {
+            if (_temp.Count == 0)
+            {
+                MessageBox.Show(AVOID_MESSAGE);
+                return;
+            }
+            else if (_state && _temp.Count > 1)
+            {
+                MessageBox.Show(RESET);
+                return;
+            }
+            _model.SetParameter(double.Parse(new string(_temp.ToArray())));
+            _results.Text = _model.GetSum().ToString();
+            _model.SetMethod(SLASH_SIGN);
+            _temp.Clear();
+            _state = false;
+        }
+
+        // =
+        private void ClickEqual(object sender, EventArgs e)
+        {
+            if (_temp.Count == 0)
+            {
+                MessageBox.Show(AVOID_MESSAGE);
+                return;
+            }
+            else if (_state && _temp.Count > 1)
+            {
+                MessageBox.Show(RESET);
+                return;
+            }
+            _model.SetParameter(double.Parse(new string(_temp.ToArray())));
+            _results.Text = _model.GetSum().ToString();
+            _temp.Clear();
+            _model.SetMethod(PLUS_SIGN);
+            _temp.Add(CHAR_ZERO);
+            _state = true;
+        }
+
+        // C
+        private void ClearClick(object sender, EventArgs e)
+        {
+            _model.Reset();
+            _temp.Clear();
+            _results.Text = "";
+            _state = false;
+        }
+
+        //CE
+        private void ClearEntryClick(object sender, EventArgs e)
+        {
+            if (_temp.Count == 0 || new string(_temp.ToArray()) == STRING_ZERO)
+            {
+                MessageBox.Show(AVOID_MESSAGE);
             }
             else
             {
-                if (state && temp.Count > 1)
-                {
-                    MessageBox.Show("Reset first");
-                    return;
-                }
-                cal_mol.setTemp(double.Parse(new string(temp.ToArray())));
-                Results.Text = cal_mol.Sum().ToString();
-                temp.Clear();
-                cal_mol.setMethod("+");
-                temp.Add('0');
-                state = true;
+                _temp.Clear();
+                _results.Text = "";
             }
         }
 
-        // Reset Button
-        private void Clear_Click(object sender, EventArgs e)
+        // 0
+        private void ClickZero(object sender, EventArgs e)
         {
-            cal_mol.Intialize();
-            temp.Clear();
-            Results.Text = "";
-            state = false;
-        }
-        private void Clear_Entry_Click(object sender, EventArgs e)
-        {
-            if (temp.Count == 0 || new string(temp.ToArray()) == "0")
-            {
-                MessageBox.Show("pls Enter the num");
-            }
-            else
-            {
-                temp.Clear();
-                Results.Text = "";
-            }
+            _temp.Add(CHAR_ZERO);
+            _results.Text = new string(_temp.ToArray());
         }
 
-        // Numbers
-        private void Zero_Click(object sender, EventArgs e)
+        // 1
+        private void ClickOne(object sender, EventArgs e)
         {
-            temp.Add('0');
-            Results.Text = new string(temp.ToArray());
+            _temp.Add(CHAR_ONE);
+            _results.Text = new string(_temp.ToArray());
         }
-        private void One_Click(object sender, EventArgs e)
+
+        // 2
+        private void ClickTwo(object sender, EventArgs e)
         {
-            temp.Add('1');
-            Results.Text = new string(temp.ToArray());
+            _temp.Add(CHAR_TWO);
+            _results.Text = new string(_temp.ToArray());
         }
-        private void Two_Click(object sender, EventArgs e)
+
+        // 3
+        private void ClickThree(object sender, EventArgs e)
         {
-            temp.Add('2');
-            Results.Text = new string(temp.ToArray());
+            _temp.Add(CHAR_THREE);
+            _results.Text = new string(_temp.ToArray());
         }
-        private void Three_Click(object sender, EventArgs e)
+
+        // 4
+        private void ClickFour(object sender, EventArgs e)
         {
-            temp.Add('3');
-            Results.Text = new string(temp.ToArray());
+            _temp.Add(CHAR_FOUR);
+            _results.Text = new string(_temp.ToArray());
         }
-        private void Four_Click(object sender, EventArgs e)
+
+        // 5
+        private void ClickFive(object sender, EventArgs e)
         {
-            temp.Add('4');
-            Results.Text = new string(temp.ToArray());
+            _temp.Add(CHAR_FIVE);
+            _results.Text = new string(_temp.ToArray());
         }
-        private void Five_Click(object sender, EventArgs e)
+
+        // 6
+        private void ClickSix(object sender, EventArgs e)
         {
-            temp.Add('5');
-            Results.Text = new string(temp.ToArray());
+            _temp.Add(CHAR_SIX);
+            _results.Text = new string(_temp.ToArray());
         }
-        private void Six_Click(object sender, EventArgs e)
+
+        // 7
+        private void ClickSeven(object sender, EventArgs e)
         {
-            temp.Add('6');
-            Results.Text = new string(temp.ToArray());
+            _temp.Add(CHAR_SEVEN);
+            _results.Text = new string(_temp.ToArray());
         }
-        private void Seven_Click(object sender, EventArgs e)
+
+        // 8
+        private void ClickEight(object sender, EventArgs e)
         {
-            temp.Add('7');
-            Results.Text = new string(temp.ToArray());
+            _temp.Add(CHAR_EIGHT);
+            _results.Text = new string(_temp.ToArray());
         }
-        private void Eight_Click(object sender, EventArgs e)
+
+        // 9
+        private void ClickNine(object sender, EventArgs e)
         {
-            temp.Add('8');
-            Results.Text = new string(temp.ToArray());
+            _temp.Add(CHAR_NINE);
+            _results.Text = new string(_temp.ToArray());
         }
-        private void Nine_Click(object sender, EventArgs e)
+
+        // .
+        private void ClickDot(object sender, EventArgs e)
         {
-            temp.Add('9');
-            Results.Text = new string(temp.ToArray());
+            _temp.Add(DOT_SIGN);
+            _results.Text = new string(_temp.ToArray());
         }
-        private void Dot_Click(object sender, EventArgs e)
-        {
-            temp.Add('.');
-            Results.Text = new string(temp.ToArray());
-        } 
     }
 }
